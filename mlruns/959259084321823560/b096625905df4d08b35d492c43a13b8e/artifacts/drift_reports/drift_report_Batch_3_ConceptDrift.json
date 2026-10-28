@@ -1,0 +1,123 @@
+{
+    "drift_summary": {
+        "batch_name": "Batch_3_ConceptDrift",
+        "sample_size": 2500,
+        "total_features": 13,
+        "drifted_features_count": 12,
+        "drift_feature_ratio": 0.923,
+        "dataset_drift_detected": true,
+        "mean_psi": 0.1566,
+        "max_psi": 0.4293,
+        "most_drifted_feature": "debt_to_income_ratio",
+        "feature_details": {
+            "applicant_age": {
+                "type": "numerical",
+                "psi": 0.0038,
+                "ks_statistic": 0.0146,
+                "ks_pvalue": 0.7840344123600358,
+                "drift_detected": false,
+                "psi_level": "STABLE"
+            },
+            "annual_income": {
+                "type": "numerical",
+                "psi": 0.0462,
+                "ks_statistic": 0.0859,
+                "ks_pvalue": 2.828825129905786e-13,
+                "drift_detected": true,
+                "psi_level": "STABLE"
+            },
+            "credit_score": {
+                "type": "numerical",
+                "psi": 0.1433,
+                "ks_statistic": 0.1655,
+                "ks_pvalue": 2.8173226646434404e-48,
+                "drift_detected": true,
+                "psi_level": "MODERATE"
+            },
+            "debt_to_income_ratio": {
+                "type": "numerical",
+                "psi": 0.4293,
+                "ks_statistic": 0.2794,
+                "ks_pvalue": 4.0576037365067844e-138,
+                "drift_detected": true,
+                "psi_level": "CRITICAL"
+            },
+            "loan_amount": {
+                "type": "numerical",
+                "psi": 0.2479,
+                "ks_statistic": 0.2076,
+                "ks_pvalue": 6.18114982074659e-76,
+                "drift_detected": true,
+                "psi_level": "MODERATE"
+            },
+            "interest_rate": {
+                "type": "numerical",
+                "psi": 0.3106,
+                "ks_statistic": 0.2401,
+                "ks_pvalue": 1.0466977684653861e-101,
+                "drift_detected": true,
+                "psi_level": "CRITICAL"
+            },
+            "employment_length_years": {
+                "type": "numerical",
+                "psi": 0.1021,
+                "ks_statistic": 0.0922,
+                "ks_pvalue": 3.131603851054256e-15,
+                "drift_detected": true,
+                "psi_level": "MODERATE"
+            },
+            "open_credit_lines": {
+                "type": "numerical",
+                "psi": 0.0672,
+                "ks_statistic": 0.1104,
+                "ks_pvalue": 1.1558862690905645e-21,
+                "drift_detected": true,
+                "psi_level": "STABLE"
+            },
+            "revolving_utilization_rate": {
+                "type": "numerical",
+                "psi": 0.1779,
+                "ks_statistic": 0.1701,
+                "ks_pvalue": 5.480567034154215e-51,
+                "drift_detected": true,
+                "psi_level": "MODERATE"
+            },
+            "delinquencies_2yrs": {
+                "type": "numerical",
+                "psi": 0.0375,
+                "ks_statistic": 0.0808,
+                "ks_pvalue": 8.571693205730572e-12,
+                "drift_detected": true,
+                "psi_level": "STABLE"
+            },
+            "home_ownership": {
+                "type": "categorical",
+                "chi2_statistic": 55.416,
+                "chi2_pvalue": 9.259250350884495e-13,
+                "drift_detected": true
+            },
+            "loan_purpose": {
+                "type": "categorical",
+                "chi2_statistic": 397.5292,
+                "chi2_pvalue": 9.509395320373492e-85,
+                "drift_detected": true
+            },
+            "employment_type": {
+                "type": "categorical",
+                "chi2_statistic": 455.8721,
+                "chi2_pvalue": 1.0200927845271582e-99,
+                "drift_detected": true
+            }
+        }
+    },
+    "performance": {
+        "accuracy": 0.7616,
+        "precision": 0.9883843717001056,
+        "recall": 0.7653311529026983,
+        "f1_score": 0.8626728110599078,
+        "roc_auc": 0.7372732503558341,
+        "delta_f1": -0.2723346468087,
+        "delta_roc_auc": -0.042144465040320545,
+        "concept_drift_detected": false
+    }
+}

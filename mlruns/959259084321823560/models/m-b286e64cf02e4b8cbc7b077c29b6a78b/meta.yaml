@@ -1,0 +1,10 @@
+artifact_location: file:///D:/Theory ISE 2/mlruns/959259084321823560/models/m-b286e64cf02e4b8cbc7b077c29b6a78b/artifacts
+creation_timestamp: 1793103619067
+experiment_id: '959259084321823560'
+last_updated_timestamp: 1793103626606
+model_id: m-b286e64cf02e4b8cbc7b077c29b6a78b
+model_type: null
+name: model
+source_run_id: 9cbb073a79a946639c0146b42bf67a31
+status: 2
+status_message: null

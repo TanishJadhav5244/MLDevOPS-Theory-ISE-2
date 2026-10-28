@@ -1,0 +1,129 @@
+{
+    "drift_summary": {
+        "batch_name": "Batch_2_DataDrift",
+        "sample_size": 2500,
+        "total_features": 13,
+        "drifted_features_count": 12,
+        "drift_feature_ratio": 0.923,
+        "dataset_drift_detected": true,
+        "mean_psi": 1.5086,
+        "max_psi": 5.1936,
+        "most_drifted_feature": "employment_length_years",
+        "prediction_psi": 2.9645,
+        "prediction_drift_detected": true,
+        "ref_default_rate": 0.4114,
+        "prod_default_rate": 0.8436,
+        "label_drift_delta": 0.4322,
+        "label_drift_detected": true,
+        "feature_details": {
+            "applicant_age": {
+                "type": "numerical",
+                "psi": 0.003,
+                "ks_statistic": 0.0211,
+                "ks_pvalue": 0.3326265282264406,
+                "drift_detected": false,
+                "psi_level": "STABLE"
+            },
+            "annual_income": {
+                "type": "numerical",
+                "psi": 0.5671,
+                "ks_statistic": 0.3225,
+                "ks_pvalue": 8.075588997530602e-185,
+                "drift_detected": true,
+                "psi_level": "CRITICAL"
+            },
+            "credit_score": {
+                "type": "numerical",
+                "psi": 0.7297,
+                "ks_statistic": 0.3523,
+                "ks_pvalue": 2.290984505433583e-221,
+                "drift_detected": true,
+                "psi_level": "CRITICAL"
+            },
+            "debt_to_income_ratio": {
+                "type": "numerical",
+                "psi": 1.3997,
+                "ks_statistic": 0.4998,
+                "ks_pvalue": 6.596e-321,
+                "drift_detected": true,
+                "psi_level": "CRITICAL"
+            },
+            "loan_amount": {
+                "type": "numerical",
+                "psi": 0.9362,
+                "ks_statistic": 0.4062,
+                "ks_pvalue": 1.2053397967188327e-296,
+                "drift_detected": true,
+                "psi_level": "CRITICAL"
+            },
+            "interest_rate": {
+                "type": "numerical",
+                "psi": 2.7998,
+                "ks_statistic": 0.6874,
+                "ks_pvalue": 2.51e-321,
+                "drift_detected": true,
+                "psi_level": "CRITICAL"
+            },
+            "employment_length_years": {
+                "type": "numerical",
+                "psi": 5.1936,
+                "ks_statistic": 0.3385,
+                "ks_pvalue": 5.299848516131267e-204,
+                "drift_detected": true,
+                "psi_level": "CRITICAL"
+            },
+            "open_credit_lines": {
+                "type": "numerical",
+                "psi": 1.1809,
+                "ks_statistic": 0.2208,
+                "ks_pvalue": 6.2026502181817676e-86,
+                "drift_detected": true,
+                "psi_level": "CRITICAL"
+            },
+            "revolving_utilization_rate": {
+                "type": "numerical",
+                "psi": 1.9462,
+                "ks_statistic": 0.5433,
+                "ks_pvalue": 4.797e-321,
+                "drift_detected": true,
+                "psi_level": "CRITICAL"
+            },
+            "delinquencies_2yrs": {
+                "type": "numerical",
+                "psi": 0.3299,
+                "ks_statistic": 0.2612,
+                "ks_pvalue": 1.557624882579734e-120,
+                "drift_detected": true,
+                "psi_level": "CRITICAL"
+            },
+            "home_ownership": {
+                "type": "categorical",
+                "chi2_statistic": 286.2537,
+                "chi2_pvalue": 6.931164795973075e-63,
+                "drift_detected": true
+            },
+            "loan_purpose": {
+                "type": "categorical",
+                "chi2_statistic": 246.0102,
+                "chi2_pvalue": 4.709828980114811e-52,
+                "drift_detected": true
+            },
+            "employment_type": {
+                "type": "categorical",
+                "chi2_statistic": 101.7037,
+                "chi2_pvalue": 8.228721518258584e-23,
+                "drift_detected": true
+            }
+        }
+    },
+    "performance": {
+        "accuracy": 0.8448,
+        "precision": 0.8592901878914405,
+        "recall": 0.9758179231863442,
+        "f1_score": 0.9138543516873889,
+        "roc_auc": 0.6763244601446243,
+        "delta_f1": -0.32351618743618116,
+        "delta_roc_auc": 0.018804325170889258,
+        "concept_or_label_drift": true
+    }
+}

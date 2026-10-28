@@ -1,0 +1,14 @@
+artifact_uri: file:///D:/Theory ISE 2/mlruns/959259084321823560/ee4fcde176f34a91b54fc212cb53b0c0/artifacts
+end_time: 1793103669979
+entry_point_name: ''
+experiment_id: '959259084321823560'
+lifecycle_stage: active
+run_id: ee4fcde176f34a91b54fc212cb53b0c0
+run_name: Monitoring_Batch_1_Stable
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1793103669890
+status: 4
+tags: []
+user_id: EXTACY

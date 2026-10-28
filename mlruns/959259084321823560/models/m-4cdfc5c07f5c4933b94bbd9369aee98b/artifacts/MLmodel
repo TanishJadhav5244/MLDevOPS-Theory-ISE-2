@@ -1,0 +1,39 @@
+artifact_path: file:///D:/Theory ISE 2/mlruns/959259084321823560/models/m-4cdfc5c07f5c4933b94bbd9369aee98b/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.14.2
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.8.0
+    skops_trusted_types: null
+is_signature_from_type_hint: false
+mlflow_version: 3.12.0
+model_id: m-4cdfc5c07f5c4933b94bbd9369aee98b
+model_size_bytes: 4380469
+model_uuid: m-4cdfc5c07f5c4933b94bbd9369aee98b
+prompts: null
+run_id: a8c325b5d7434cc9ab1bd0f26898b541
+signature:
+  inputs: '[{"type": "long", "name": "applicant_age", "required": true}, {"type":
+    "double", "name": "annual_income", "required": true}, {"type": "double", "name":
+    "credit_score", "required": true}, {"type": "double", "name": "debt_to_income_ratio",
+    "required": true}, {"type": "double", "name": "loan_amount", "required": true},
+    {"type": "double", "name": "interest_rate", "required": true}, {"type": "long",
+    "name": "employment_length_years", "required": true}, {"type": "long", "name":
+    "open_credit_lines", "required": true}, {"type": "double", "name": "revolving_utilization_rate",
+    "required": true}, {"type": "long", "name": "delinquencies_2yrs", "required":
+    true}, {"type": "string", "name": "home_ownership", "required": true}, {"type":
+    "string", "name": "loan_purpose", "required": true}, {"type": "string", "name":
+    "employment_type", "required": true}]'
+  outputs: '[{"type": "tensor", "tensor-spec": {"dtype": "int64", "shape": [-1]}}]'
+  params: null
+type_hint_from_example: false
+utc_time_created: '2026-10-27 12:26:15.844976'

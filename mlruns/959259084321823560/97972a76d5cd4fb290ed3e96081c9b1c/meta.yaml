@@ -1,0 +1,14 @@
+artifact_uri: file:///D:/Theory ISE 2/mlruns/959259084321823560/97972a76d5cd4fb290ed3e96081c9b1c/artifacts
+end_time: 1793103892425
+entry_point_name: ''
+experiment_id: '959259084321823560'
+lifecycle_stage: active
+run_id: 97972a76d5cd4fb290ed3e96081c9b1c
+run_name: Auto_Retrained_Post_Batch_3_ConceptDrift
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1793103888436
+status: 3
+tags: []
+user_id: EXTACY

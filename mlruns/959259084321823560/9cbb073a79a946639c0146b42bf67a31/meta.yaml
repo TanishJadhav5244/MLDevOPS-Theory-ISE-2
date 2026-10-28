@@ -1,0 +1,14 @@
+artifact_uri: file:///D:/Theory ISE 2/mlruns/959259084321823560/9cbb073a79a946639c0146b42bf67a31/artifacts
+end_time: 1793103626648
+entry_point_name: ''
+experiment_id: '959259084321823560'
+lifecycle_stage: active
+run_id: 9cbb073a79a946639c0146b42bf67a31
+run_name: Baseline_Model_v1
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1793103617560
+status: 3
+tags: []
+user_id: EXTACY

@@ -1,0 +1,142 @@
+1. MLflow Installation and Experiment Tracking
+1.1 Environment Setup
+Operating System: Windows 11 Enterprise (64-bit, x86_64 architecture)
+Python Version: Python 3.14.2
+MLflow Version: mlflow 3.12.0
+Installation and verification status: Verified and operational. Installed via pip (mlflow, scikit-learn, pandas, numpy, scipy, matplotlib, fastapi, uvicorn). Executed 'python -m mlflow --version' returning 'python -m mlflow, version 3.12.0' with tracking server configured at local directory file:///D:/Theory ISE 2/mlruns.
+
+1.2 Experiment Tracking
+Experiment Name: Credit_Risk_Drift_Monitoring
+Experiment Objective: Track the full lifecycle of credit default risk prediction models, logging hyperparameters, model signatures, baseline performance metrics, real-time feature drift (PSI, KS-Test), prediction drift, and automated continuous retraining (CT) runs upon distribution shift.
+Parameters, metrics or artifacts recorded:
+- Hyperparameters: n_estimators (120/140), max_depth (8/9), min_samples_split (4/5), class_weight (balanced), random_state (42), train_samples (7500), test_samples (2500).
+- Baseline Metrics: accuracy (0.6608), precision (0.5864), recall (0.5944), f1_score (0.5903), roc_auc (0.6951).
+- Drift Metrics: mean_psi, max_psi, prediction_psi, label_drift_delta, drifted_features_count, drift_feature_ratio, dataset_drift_flag, concept_drift_flag, delta_f1, delta_roc_auc.
+- Artifacts: Serialized pipeline models (RandomForestClassifier in MLmodel/skops format), inferred schema signatures, input examples (input_example.json), Confusion Matrix plot (baseline_confusion_matrix.png), ROC Curve plot (baseline_roc_curve.png), feature drift distribution charts (drift_plot_*.png), and JSON drift summary reports (drift_report_*.json).
+Brief description of successful execution: The training pipeline executed within mlflow.start_run(run_name='Baseline_Model_v1'), generating active Run ID 6ec8807f7de147ecb7b994c6220364da. Model parameters, evaluation metrics, and diagnostic plots were logged as MLflow artifacts and stored in ./mlruns for downstream auditability.
+
+
+
+2. Dataset Identification
+2.1 Problem Statement
+Briefly describe the problem addressed in the selected internship domain:
+In the FinTech and banking domain, credit approval systems rely on machine learning models to assess loan applicant default risk. In dynamic economic conditions, interest rate fluctuations, inflationary pressure, and consumer financial stress cause distribution shifts in applicant profiles (Covariate Shift) and change the underlying relationship between applicant characteristics and default likelihood (Concept Drift). If unmonitored, deployed models suffer silent performance decay, leading to increased loan default losses or erroneous credit rejections.
+
+2.2 Dataset Details
+Dataset Name: FinTech Consumer Credit Default Risk Monitoring Dataset
+Dataset Source: Synthetically generated based on empirical Federal Reserve & LendingClub macroeconomic credit distributions (implemented via reproducible generator in src/data_generator.py).
+Number of Records: 17,500 total records:
+- Baseline Reference Set: 10,000 records
+- Production Batch 1 (In-Distribution Stable): 2,500 records
+- Production Batch 2 (Covariate Shift / Data Drift): 2,500 records
+- Production Batch 3 (Concept & Prior Probability Drift): 2,500 records
+Important Features:
+- 10 Numerical: applicant_age, annual_income, credit_score, debt_to_income_ratio, loan_amount, interest_rate, employment_length_years, open_credit_lines, revolving_utilization_rate, delinquencies_2yrs.
+- 3 Categorical: home_ownership (RENT, MORTGAGE, OWN), loan_purpose (debt_consolidation, credit_card, small_business, home_improvement, education), employment_type (salaried, self_employed, contract).
+Target Variable (if applicable): loan_default (Binary: 0 = Non-Default / Paid, 1 = Default / Charged-Off)
+Use Case Category: ML / Supervised Classification / Production MLOps Monitoring
+
+2.3 Dataset Selection Rationale
+Explain why the dataset is relevant to the selected problem:
+Credit default risk modeling in digital banking provides an authentic testbed for MLOps drift detection. Continuous features such as interest rates and debt-to-income ratios directly reflect monetary policy changes, while ground-truth default outcomes have an inherent delayed feedback loop (loans take months to default). Thus, detecting covariate shift and real-time prediction output drift allows financial institutions to take proactive measures before realizing significant balance-sheet losses.
+
+
+
+
+
+
+
+
+
+
+
+
+3. Drift Scenario and Detection Method
+3.1 Drift Type
+Identify the relevant drift type: Data Drift / Concept Drift / Prediction Drift:
+All three drift types are systematically modeled and monitored:
+1. Data Drift (Covariate Shift): Macroeconomic stress shifting feature distributions P(X) (higher interest rates, higher DTI, elevated revolving utilization) while risk logic P(Y|X) remains unchanged.
+2. Concept Drift: Structural shift in relationship P(Y|X) where small business and self-employed borrowers default at higher rates despite standard credit scores.
+3. Prediction Drift & Label Drift: Divergence in model prediction probabilities P(Y_hat) and prior default rates P(Y).
+
+3.2 Reference and Current Data
+Briefly describe the datasets or model outputs compared, including whether the drift is naturally observed or simulated:
+- Reference Data: Baseline dataset (10,000 records) representing stable macroeconomic credit conditions (default rate ~35%).
+- Current Data: 3 sequential simulated production cohorts (2,500 records each):
+  1. Batch 1: In-distribution stable production traffic (simulated from identical baseline parameters).
+  2. Batch 2: Simulated covariate shift (simulating rate hikes: interest rates shifted from 11.5% to 17.5%, DTI and utilization elevated).
+  3. Batch 3: Simulated concept drift (economic disruption causing severe label drift and structural default relationship shift).
+
+3.3 Detection Method
+Method / Statistical Test / Tool Used:
+- Population Stability Index (PSI): Segmenting continuous features and predicted probabilities into 10 quantile bins based on reference data.
+- Two-Sample Kolmogorov-Smirnov (KS) Test: Non-parametric comparison of empirical cumulative distribution functions (eCDFs).
+- Chi-Square Goodness of Fit Test: Frequency divergence across categorical attributes.
+- Prediction Drift & Label Delta: Measuring PSI on model output probabilities P(Y_hat) and absolute difference in positive class frequencies |P(Y_ref) - P(Y_prod)|.
+- Tool: Custom statistical drift engine (src/drift_engine.py) integrated with MLflow Tracking Server.
+Features or outputs analyzed:
+All 13 input features, dataset-level drift ratio, model output predicted probabilities P(Y_hat), and ground-truth default target rates P(Y).
+Detection threshold or criteria, if applicable:
+- PSI Criteria: PSI < 0.10 (Stable / No action); 0.10 <= PSI < 0.25 (Moderate shift / Warning); PSI >= 0.25 (Significant drift / Trigger Retraining).
+- KS-Test: Significance level alpha = 0.05 (drift flagged if p-value < 0.05).
+- Dataset Drift Trigger: Flagged if >= 30% of features exhibit drift OR prediction probability PSI >= 0.25.
+
+
+4. Results, Interpretation and Conclusion
+4.1 Drift Analysis Results
+Summarize the important findings. Detailed screenshots, plots and reports should be maintained in GitHub:
+- Batch 1 (Stable Traffic):
+  * Drifted Features: 0 / 13 (0.0%)
+  * Mean Feature PSI: 0.0030 (Max PSI: 0.0050 on revolving_utilization_rate)
+  * Prediction PSI: 0.0220 | Label Delta: 0.0022
+  * Data Drift Flag: False | Concept Drift Flag: False
+  * Current Batch Metrics: Accuracy = 0.6536, F1-Score = 0.5792, ROC-AUC = 0.6951
+- Batch 2 (Covariate Shift):
+  * Drifted Features: 12 / 13 (92.3%)
+  * Mean Feature PSI: 1.5086 (Critical Drift, Max PSI: 5.1936 on employment_length_years)
+  * Prediction PSI: 2.9645 (Extreme prediction drift) | Label Delta: 0.4322
+  * Data Drift Flag: True | Concept Drift Flag: True
+  * Retrained Model Metrics: Accuracy = 0.7268, F1-Score = 0.7434, ROC-AUC = 0.8005
+- Batch 3 (Concept & Prior Probability Drift):
+  * Drifted Features: 12 / 13 (92.3%)
+  * Mean Feature PSI: 0.1566 (Moderate drift, Max PSI: 0.4293 on debt_to_income_ratio)
+  * Prediction PSI: 0.7269 (Critical prediction drift) | Label Delta: 0.5670 (Severe prior shift)
+  * Data Drift Flag: True | Concept Drift Flag: True
+  * Retrained Model Metrics: Accuracy = 0.7206, F1-Score = 0.7730, ROC-AUC = 0.7910
+
+4.2 Interpretation
+Explain what the findings mean for the selected internship domain:
+In FinTech credit scoring, Batch 1 validates that normal variations within expected demographics do not destabilize model scoring. In Batch 2, macroeconomic shifts dramatically alter customer borrowing profiles; while the model's raw F1 remained high due to class surge, the prediction probabilities drifted drastically (PSI 2.9645), creating miscalibrated default probabilities. In Batch 3, structural disruptions changed default correlations, creating heavy label drift (56.7% surge). Automated detection ensured that silent model decay was identified before loan portfolios suffered severe losses.
+
+4.3 Conclusion and Recommended Action
+State whether drift was detected, whether the result was inconclusive, or whether no significant drift was found. Mention the appropriate next action:
+- Batch 1: No significant drift found. Model was verified as stable and kept in active production serving.
+- Batches 2 & 3: Significant Data Drift, Prediction Drift, and Concept Drift were conclusively detected (Mean PSI > 0.25 and Prediction PSI > 0.25).
+- Recommended & Automated Action Executed: An automated Continuous Training (CT) loop was initiated. Combined datasets were formed, and retrained models (Auto_Retrained_Post_Batch_2 and Auto_Retrained_Post_Batch_3) were trained, validated, and logged to MLflow, restoring discriminative capability to ROC-AUC 0.8005 and 0.7910.
+
+
+5. GitHub Repository and Reproducibility
+GitHub Repository URL: https://github.com/PrafullHarer/MLDevOPS-Theory-ISE-2
+Source code / Notebook:
+- run_pipeline.py (Master 1-click execution script)
+- src/data_generator.py (Synthetic data generation with controlled drift)
+- src/train.py (Baseline Scikit-learn training and MLflow tracking)
+- src/drift_engine.py (Mathematical PSI, KS-test, Chi-square & plot engine)
+- src/monitor_and_retrain.py (Continuous monitoring and automated retraining)
+- src/app.py (FastAPI real-time inference & drift telemetry REST API)
+README and execution instructions:
+Detailed in README.md with system architecture diagrams, environment setup, 1-click execution instructions, MLflow dashboard launch commands, and FastAPI Swagger endpoints.
+Requirements / Dependencies:
+Documented in requirements.txt (mlflow>=3.12.0, scikit-learn>=1.5.0, pandas>=2.2.0, numpy>=1.26.0, scipy>=1.14.0, matplotlib>=3.9.0, fastapi>=0.110.0, uvicorn>=0.28.0, joblib>=1.4.0, pydantic>=2.7.0).
+Screenshots and drift reports:
+Maintained in artifacts/ folder:
+- baseline_confusion_matrix.png
+- baseline_roc_curve.png
+- drift_plot_Batch_1_Stable.png
+- drift_plot_Batch_2_DataDrift.png
+- drift_plot_Batch_3_ConceptDrift.png
+- drift_report_Batch_1_Stable.json
+- drift_report_Batch_2_DataDrift.json
+- drift_report_Batch_3_ConceptDrift.json
+MLflow experiment and drift-analysis evidence:
+Maintained in mlruns/ directory with local file store containing experiment metadata, run parameters, metric curves, model signatures, and serialized artifact models.
